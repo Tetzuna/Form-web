@@ -30,14 +30,29 @@
  
           <div class="mb-3"> 
             <label for="hp" class="form-label">Nomor WhatsApp</label> 
-            <input id="hp" type="text" inputmode="numeric" class="form-control" placeholder="081234567890"> 
+            <input id="hp" type="text" class="form-control" placeholder="081234567890" pattern="^08[0-9]{8,11}$" required>
             <div id="hp-hint" class="form-text">Diawali 08, 10-13 digit</div> 
             <div id="hp-error" class="invalid-feedback"></div> 
           </div> 
+
+          <div class="mb-3"> 
+            <label for="password" class="form-label">Password</label> 
+            <input id="password" type="text" class="form-control" placeholder="Buat password kamu" required minlength="6"> 
+            <div id="password-hint" class="form-text">password minimal 6 karakter</div> 
+            <div id="password-error" class="invalid-feedback"></div> 
+          </div> 
+
+          <div class="mb-3"> 
+            <label for="retypePassword" class="form-label">Tulis ulang password</label> 
+            <input id="retypePassword" type="text" class="form-control" placeholder="Tulis ulang password kamu" required> 
+            <div id="password-hint" class="form-text">tulis ulang password</div> 
+            <div id="retypePassword-error" class="invalid-feedback"></div> 
+          </div> 
+          
  
           <div class="mb-4"> 
-            <label for="tanggal" class="form-label">Tanggal kehadiran</label> 
-            <input id="tanggal" type="date" class="form-control"> 
+            <label for="tanggal" class="form-label">Tanggal Lahir</label> 
+            <input id="tanggal" type="date" class="form-control" max=""> 
             <div id="tanggal-error" class="invalid-feedback"></div> 
           </div> 
  
