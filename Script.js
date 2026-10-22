@@ -2,14 +2,18 @@
 const form = document.querySelector('#formDaftar'); 
 const fields = form.querySelectorAll('input'); 
 const tanggal = document.querySelector('#tanggal'); 
+const password = document.querySelector('#password');
+const retypePassword = document.querySelector('#retypepassword');
 const statusForm = document.querySelector('#statusForm'); 
 
 // ===== 2. Daftar pesan error (kunci = id input) ===== 
 const pesan = { 
   nama:    { kosong: 'Nama wajib diisi.', pendek: 'Nama minimal 3 huruf.' }, 
   email:   { kosong: 'Email wajib diisi.', format: 'Format email belum benar. Contoh: nama@domain.com' }, 
-  hp:      { kosong: 'Nomor WhatsApp wajib diisi.', format: 'Nomor diawali 08 dan terdiri dari 10–13 digit.' }, 
-  tanggal: { kosong: 'Pilih tanggal kehadiran.', lampau: 'Tanggal paling cepat hari ini.' }, 
+  hp:      { kosong: 'Nomor WhatsApp wajib diisi.', format: 'Nomor diawali 08 dan terdiri dari 10–13 digit.', pendek: 'Pastikan nomor anda sudah benar' }, 
+  password: { kosong: 'Password wajib diisi.', pendek: 'Password minimal 6 karakter.' }, 
+  retypePassword: { kosong: 'Konfirmasi password wajib diisi.', tidakSama: 'Password dan re-type password tidak sama.' },
+  tanggal: { kosong: 'Pilih tanggal lahir.', tidakcukup: 'Umur tidak mencukupi, kamu harus berusia 20 tahun keatas'}, 
 }; 
 
 // ===== 3. Tampilkan dan hapus error ===== 
@@ -34,7 +38,11 @@ function cekField(input) {
   if (input.value.trim() === '') return showError(input, p.kosong); 
   if (v.tooShort) return showError(input, p.pendek); 
   if (v.typeMismatch || v.patternMismatch) return showError(input, p.format); 
-  if (v.rangeUnderflow) return showError(input, p.lampau); 
+  if (input.id === 'tanggal') 
+    if (input.value > tanggal.max) {
+      return showError(input, p.tidakcukup);
+    }
+  if (input.id === 'retypePassword' && input.value !== password.value) return showError(input, p.tidakSama);
   return clearError(input); 
 } 
 
@@ -47,14 +55,15 @@ function semuaFieldValid() {
 } 
 
 // ===== 5. Tanggal minimal = hari ini ===== 
-function hariIni() { 
+function tanggalahir() { 
   const d = new Date(); 
-  const bulan = String(d.getMonth() + 1).padStart(2, '0'); 
-  const tgl = String(d.getDate()).padStart(2, '0'); 
-  return d.getFullYear() + '-' + bulan + '-' + tgl; 
+  const tahun = d.getFullYear() - 20;
+  const bln = String(d.getMonth() + 1).padStart(2, "0");
+  const tgl = String(d.getDate()).padStart(2, "0");
+  return tahun + '-' + bln + '-' + tgl; 
 } 
 
-tanggal.min = hariIni(); 
+tanggal.max = tanggalahir(); 
 
 // ===== 6. Event: saat pindah field ===== 
 function saatBlur(event) { 
